@@ -1,7 +1,6 @@
 import json
 import random
 import string
-import uuid
 import cx_Oracle
 import os
 import getpass
