@@ -28,3 +28,14 @@ CREATE SEARCH INDEX books_search_idx ON books_j (book_data) FOR JSON PARAMETERS 
 
 pause Query with Search Index
 select json_query(book_data,'$') as book_info from books_j where json_textcontains(book_data, '$', 'Jan');
+
+pause Add Virtual Columns
+exec dbms_json.add_virtual_columns('books_j','books_data')
+desc books_j
+
+pause Create new multi-column index using Virtual COLUMNS
+create index books_location_vc_idx on books_j ("BOOK_DATA$location", "BOOK_DATA$title");
+
+set autotrace on
+
+select "BOOK_DATA$title" from books_j where "BOOK_DATA$location" = 'CB4';
