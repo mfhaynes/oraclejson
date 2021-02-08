@@ -25,19 +25,27 @@ pause Use syntax from Index DDL in Query
 select json_value(book_data, '$.title' ERROR ON ERROR NULL ON EMPTY) from books_j books where books.book_data.location = 'CB4';			
 pause No longer hits table.
 
-pause Search Indexes allow full-text word searching (also supports Dataguide)
-CREATE SEARCH INDEX books_search_idx ON books_j (book_data) FOR JSON PARAMETERS ('DATAGUIDE ON');   
+pause Search Indexes allow full-text word searching (also supports Dataguide and virtual columns)
+CREATE SEARCH INDEX books_search_idx ON books_j (book_data) FOR JSON PARAMETERS ('DATAGUIDE ON CHANGE add_vc');   
+desc books_j
 
 pause Query with Search Index
 select json_query(book_data,'$') as book_info from books_j where json_textcontains(book_data, '$', 'Jan');
 
-pause Add Virtual Columns
-exec dbms_json.add_virtual_columns('books_j','book_data')
-desc books_j
-
 pause Create new multi-column index using Virtual COLUMNS
 create index books_location_vc_idx on books_j ("BOOK_DATA$location", "BOOK_DATA$title");
 
-set autotrace on
-
+pause Use new index
 select "BOOK_DATA$title" from books_j where "BOOK_DATA$location" = 'CB4';
+
+set autotrace off
+
+pause Add new row with publisher info
+insert into books_j (book_id, book_data)
+values (sys_guid(),
+        '{"location":"MH2","title":"Jbpfs iw Frlp","author":"Oufa Cnfel","cost":21.12,"description":"dsfhkjh","inventoryamount":3,"pagecount":129,"publisher":"Random Shed"}');
+desc books_j
+
+pause Commit and then re-describe table
+commit;
+desc books_j;
