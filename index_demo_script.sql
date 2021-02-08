@@ -1,4 +1,6 @@
+set lines 200
 set autotrace on
+set echo on
 pause Query based on location
 select books.book_data.title from books_j books where books.book_data.location = 'CB4';
 
@@ -20,7 +22,7 @@ select books.book_data.title from books_j books where books.book_data.location =
 pause New Index Gets Use but STILL hitting table...
 
 pause Use syntax from Index DDL in Query	
-select json_value(book_data, '$.title' ERROR ON ERROR NULL ON EMPTY) from books_j books where books.book_data.location = 'CB4'			
+select json_value(book_data, '$.title' ERROR ON ERROR NULL ON EMPTY) from books_j books where books.book_data.location = 'CB4';			
 pause No longer hits table.
 
 pause Search Indexes allow full-text word searching (also supports Dataguide)
@@ -30,7 +32,7 @@ pause Query with Search Index
 select json_query(book_data,'$') as book_info from books_j where json_textcontains(book_data, '$', 'Jan');
 
 pause Add Virtual Columns
-exec dbms_json.add_virtual_columns('books_j','books_data')
+exec dbms_json.add_virtual_columns('books_j','book_data')
 desc books_j
 
 pause Create new multi-column index using Virtual COLUMNS
