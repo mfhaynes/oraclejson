@@ -1,11 +1,11 @@
 col total_cost for 999,999,999,999.99
-select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 50;
+select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70;
 
 DECLARE
     book_json            json_object_t;
     book_json_string     varchar2(4000);
 BEGIN
-    FOR book_record IN (SELECT books.book_id, books.book_data FROM books_j books WHERE books.book_data.cost >= 50)
+    FOR book_record IN (SELECT books.book_id, books.book_data FROM books_j books WHERE books.book_data.cost >= 70)
     LOOP
         book_json := json_object_t(book_record.book_data);
         book_json.put('cost', round(book_json.get_Number('cost')*.9,2));    
@@ -15,4 +15,4 @@ BEGIN
 END;
 /
 
-select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 50;
+select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70;
