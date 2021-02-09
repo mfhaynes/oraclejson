@@ -1,6 +1,13 @@
-col total_cost for 999,999,999,999.99
+col total_cost for 999,999,999.99
+col estimated_final for 999,999,999.99
 select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70;
 select sum(books.book_data.cost) total_cost from books_j books;
+
+with
+cost_over_70 as (select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70),
+all_cost as (select sum(books.book_data.cost) total_cost from books_j books)
+select all_cost.total_cost-(.1*cost_over_70.total_cost) estimated_final
+from cost_over_70 cross join all_cost;
 
 DECLARE
     book_json            json_object_t;
@@ -16,4 +23,4 @@ BEGIN
 END;
 /
 
-select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 63;
+select sum(books.book_data.cost) total_cost from books_j books;
