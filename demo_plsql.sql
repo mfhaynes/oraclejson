@@ -1,5 +1,6 @@
 col total_cost for 999,999,999,999.99
 select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70;
+select sum(books.book_data.cost) total_cost from books_j books;
 
 DECLARE
     book_json            json_object_t;
