@@ -15,4 +15,4 @@ BEGIN
 END;
 /
 
-select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 70;
+select sum(books.book_data.cost) total_cost from books_j books where books.book_data.cost >= 63;
