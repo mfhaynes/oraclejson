@@ -1,6 +1,8 @@
-set lines 200
+set lines 155
+set pause on
 set autotrace on
 set echo on
+col book_info for a150 wrap
 pause Query based on location
 select books.book_data.title from books_j books where books.book_data.location = 'CB4';
 
@@ -43,7 +45,8 @@ set autotrace off
 pause Add new row with publisher info
 insert into books_j (book_id, book_data)
 values (sys_guid(),
-        '{"location":"MH2","title":"Jbpfs iw Frlp","author":"Oufa Cnfel","cost":21.12,"description":"dsfhkjh","inventoryamount":3,"pagecount":129,"publisher":"Random Shed"}');
+        '{"location":"MH2","title":"Jbpfs iw Frlp","author":"Oufa Cnfel","cost":21.12,"description":"dsfhkjh",'||
+        '"inventoryamount":3,"pagecount":129,"publisher":"Random Shed"}');
 desc books_j
 
 pause Commit and then re-describe table
