@@ -24,7 +24,7 @@ select json_value(artist_data,'$.Education[0]' RETURNING degree_t) from artists_
 pause Multiple Query Techniques
 select books.book_data.title, books.book_data.pagecount,
        json_query(book_data,'$.topics[*]' returning varchar2 pretty with wrapper) topics
-from books_j books where json_value(book_data,'$.pagecount' returning number) > 1250
+from books_j books where json_value(book_data,'$.pagecount' returning number) > 1282
 order by books.book_data.pagecount;
 
 pause Joining with a Relational Table
