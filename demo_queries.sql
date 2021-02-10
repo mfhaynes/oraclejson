@@ -36,9 +36,13 @@ from books_j books join topic_experts on books.book_data.author = topic_experts.
 col artist_name for a30
 col birthdate for a9
 col degreedata for a80 wrap
+set pause on
+set pages 21
 pause Using Conditionals in JSON_EXISTS similar to JSON_QUERY
 select json_value(artist_data,'$.Name') as artist_name, 
        to_date(json_value(artist_data,'$.BirthDate'),'YYYY.MM.DD') as birthdate, 
        json_query(artist_data,'$.Education[*]' PRETTY WITH ARRAY WRAPPER) as degreedata
 from artists_j
 where json_exists(artist_data,'$.Education[*]?(@.DegreeDate > "2020.07.06")');
+set pause off
+set pages 38                                                                                                   
