@@ -15,17 +15,18 @@ from books_j books where json_value(book_data,'$.cost' returning number) = 74.50
 pause Returning single element from an array of objects with JSON_QUERY
 select json_query(artist_data,'$.Education[0]') from artists_j where rownum = 1;
 
-pause Returning single element from an array of objects as a custom data type
-CREATE TYPE degree_t as OBJECT (institution varchar2(64), degree varchar2(64), degreedate varchar2(10))
-/
-
-select json_value(artist_data,'$.Education[0]' RETURNING degree_t) from artists_j where rownum = 1;
-
-pause Multiple Query Techniques
+pause Returning all values from an array
 select books.book_data.title, books.book_data.pagecount,
        json_query(book_data,'$.topics[*]' returning varchar2 pretty with wrapper) topics
 from books_j books where json_value(book_data,'$.pagecount' returning number) > 1282
 order by books.book_data.pagecount;
+
+pause Returning single element from an array of objects as a custom data type
+CREATE TYPE degree_t as OBJECT (institution varchar2(64), degree varchar2(64), degreedate varchar2(10))
+/
+
+pause Now we can use the custom data type.
+select json_value(artist_data,'$.Education[0]' RETURNING degree_t) from artists_j where rownum = 1;
 
 pause Joining with a Relational Table
 select books.book_data.title, books.book_data.author,
@@ -38,7 +39,7 @@ col birthdate for a9
 col degreedata for a80 wrap
 set pause on
 set pages 21
-pause Using Conditionals in JSON_EXISTS similar to JSON_QUERY
+pause Example using conditionals in JSON_EXISTS
 select json_value(artist_data,'$.Name') as artist_name, 
        to_date(json_value(artist_data,'$.BirthDate'),'YYYY.MM.DD') as birthdate, 
        json_query(artist_data,'$.Education[*]' PRETTY WITH ARRAY WRAPPER) as degreedata
