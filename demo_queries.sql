@@ -1,11 +1,12 @@
 set echo on
-set lines 200
-set pages 50
+set lines 155
+set pages 38
 col title for a30
 col pagecount for a10
 col topics for a30
 col first_topic for a30
 col cost for a10
+col author for a30
 pause Returning single element from an array of scalars
 select books.book_data.title, books.book_data.cost,
        json_value(book_data,'$.topics[0]') first_topic
